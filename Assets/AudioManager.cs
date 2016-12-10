@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
-    Dictionary<string, AudioClip> Clips;
-    Queue<string> SoundQueue;
-    AudioSource Source;
+    public Dictionary<string, AudioClip> Clips;
+    public Queue<string> SoundQueue;
+    public AudioSource Source;
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +37,8 @@ public class AudioManager : MonoBehaviour {
             if(SoundQueue.Count > 0)
             {
                 var clipname = SoundQueue.Dequeue();
-                Source.clip = Clips[name];
+                Debug.Log(clipname);
+                Source.clip = Clips[clipname];
                 Source.Play();
             }
         }
