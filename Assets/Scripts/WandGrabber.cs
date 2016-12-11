@@ -9,6 +9,8 @@ public class WandGrabber : MonoBehaviour
     private SteamVR_TrackedController trackedController;
     private Queue<Tuple<Vector3, float>>previousPositions;
 
+    public InteractionManager interactionManager;
+
     // Use this for initialization
     void Start()
     {
@@ -41,11 +43,15 @@ public class WandGrabber : MonoBehaviour
                 var dy = velocities.Average(v => v.y);
                 var dz = velocities.Average(v => v.z);
 
-                Debug.Log("Given Velocity:" + dx + "," + dy + "," + dz);
+                //Debug.Log("Given Velocity:" + dx + "," + dy + "," + dz);
                 
                 transform.GetChild(0).GetComponent<Rigidbody>().AddForce(dx,dy,dz, ForceMode.Impulse);
 
+                interactionManager.NotifyInteraction(gameObject, transform.GetChild(0).gameObject, InteractionManager.Interactions.DROP);
+
                 transform.DetachChildren();
+
+                
             }
         }
     }
@@ -56,6 +62,9 @@ public class WandGrabber : MonoBehaviour
         {
             other.gameObject.transform.parent = transform;
             other.GetComponent<Rigidbody>().isKinematic = true;
+
+            interactionManager.NotifyInteraction(gameObject, other.gameObject, InteractionManager.Interactions.GRAB);
+
         }
     }
 
