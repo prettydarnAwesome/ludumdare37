@@ -17,7 +17,7 @@ public class State
         private set;
     }
 
-    public string VoiceString
+    public VoiceLineManager.VoiceLinePurpose Purpose
     {
         get;
         private set;
@@ -31,11 +31,11 @@ public class State
 
 
 
-    public State(int ID, string Name, string voiceString = null)
+    public State(int ID, string Name, VoiceLineManager.VoiceLinePurpose purpose)
     {
         this.ID = ID;
         this.Name = Name;
-        this.VoiceString = voiceString;
+        this.Purpose = purpose;
 
         Edges = new List<Edge>();
     }

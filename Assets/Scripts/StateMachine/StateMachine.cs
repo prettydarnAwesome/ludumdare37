@@ -32,9 +32,9 @@ public class StateMachine
         fromState.AddEdge(newEdge);
     }
 
-    protected State CreateState(string name, string soundName = null)
+    protected State CreateState(string name, VoiceLineManager.VoiceLinePurpose purpose = VoiceLineManager.VoiceLinePurpose.NULL)
     {
-        State state = new State(StateCounter, name, soundName);
+        State state = new State(StateCounter, name, purpose);
         StateCounter += 1;
         return state;
     }
@@ -49,7 +49,8 @@ public class StateMachine
                 {
                     CurrentState = edge.TargetState;
                     Debug.Log("Changed State To: " + CurrentState.Name);
-                    IManager.TriggerSound(); // TODO: Make this do sound pls
+                    if(CurrentState.Purpose != VoiceLineManager.VoiceLinePurpose.NULL)
+                        IManager.TriggerSound(subjectObject, CurrentState.Purpose);
                     break;
                 }
             }        

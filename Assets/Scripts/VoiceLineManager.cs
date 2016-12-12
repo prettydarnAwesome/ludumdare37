@@ -6,72 +6,47 @@ using UnityEngine;
 public class VoiceLineManager : MonoBehaviour
 {
     public AudioManager audioManager;
-    Dictionary<string, List<string>> voiceLines;
-    Dictionary<string, float> categoryTimeouts;
 
-    // ugly hack i think
-    List<string> categoriesToRemoveFromTimeouts;
+    public enum VoiceLinePurpose
+    {
+        NULL,
+        GRAB,
+        FLOOR,
+        WALL,
+        JUGGLE
+    }
 
-    // time between lines of same category being played, in seconds
-    float timeout = 5.0f;
+    // TODO: Make a custom clip class, this would contain information such as the last time it was played, its priority and whatever else we want to put in there
+    private List<string> Clips;
 
     void Start()
     {
-        voiceLines = new Dictionary<string, List<string>>();
-        voiceLines.Add("box_grab", new List<string>()
+        Clips = new List<string>();
+        var cliparray = Resources.LoadAll<AudioClip>("").ToList();
+        cliparray.ForEach(x =>
         {
-            "Cube"
+            Clips.Add(x.name);
         });
-        voiceLines.Add("box_drop", new List<string>()
-        {
-            "Juggle"
-        });
-        voiceLines.Add("box_floor_collide", new List<string>()
-        {
-            "Floor"
-        });
-
     }
 
     void Update()
     {
-        categoriesToRemoveFromTimeouts.Clear();
-        foreach(var kv in categoryTimeouts)
-        {
-            // kv.Key = category name
-            // kv.Value = time until we can play it again
-            categoryTimeouts[kv.Key] = kv.Value - Time.deltaTime;
-            if(categoryTimeouts[kv.Key] <= 0f)
-            {
-                categoriesToRemoveFromTimeouts.Add(kv.Key);
-            }
-        }
 
-        // we can't remove entries from categoryTimeouts during the previous foreach loop, so we do it here. see line 12
-        categoriesToRemoveFromTimeouts.ForEach(x =>
-        {
-            categoryTimeouts.Remove(x);
-        });
     }
 
-    public void RequestVoiceLine(string category)
+    public void RequestVoiceLine(string clipName)
     {
         // check if we have any voice lines of the requested category
-        if (!voiceLines.ContainsKey(category))
+        if (!Clips.Contains(clipName))
         {
-            Debug.LogError("unknown voice line category requested: " + category);
+            Debug.LogError("unknown voice line category requested: " + clipName);
             return;
         }
-
-        // check if we played a voice line from this category too recently
-        if (!categoryTimeouts.ContainsKey(category))
+        else
         {
-            // we didn't, so let's get a random voice line and play it
-            var linesList = voiceLines[category];
-            var line = linesList[Mathf.FloorToInt(Random.value * linesList.Count)];
-            audioManager.RequestSound(line);
-
-            categoryTimeouts.Add(category, timeout);
+            // with the custom class we need to find all clips with the name of the clipName and then decide which one to play
+            // make sure to check the last played + timeout for unix stuff
+            audioManager.RequestSound(clipName);
         }
     }
 }

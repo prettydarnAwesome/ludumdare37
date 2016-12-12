@@ -23,6 +23,8 @@ public class InteractionManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        StateMachineDict = new Dictionary<string, List<StateMachine>>();
+
         foreach (GameObject grabbable in GameObject.FindGameObjectsWithTag("Grabbable"))
         {
             StateMachineDict.Add(grabbable.name, new List<StateMachine>());
@@ -38,20 +40,29 @@ public class InteractionManager : MonoBehaviour
 
     public void NotifyInteraction(GameObject objectObject, GameObject subjectObject, Interactions interaction)
     {
-        foreach (StateMachine SM in StateMachineDict[objectObject.name])
+        if (StateMachineDict.ContainsKey(objectObject.name))
         {
-            SM.Update(objectObject, subjectObject, interaction);
-            voiceLineManager.RequestVoiceLine(playString);
+            foreach (StateMachine SM in StateMachineDict[objectObject.name])
+            {
+                SM.Update(objectObject, subjectObject, interaction);
+                //voiceLineManager.RequestVoiceLine(playString);
+            }
         }
-        foreach (StateMachine SM in StateMachineDict[subjectObject.name])
+        if (StateMachineDict.ContainsKey(subjectObject.name))
         {
-            SM.Update(objectObject, subjectObject, interaction);
+            foreach (StateMachine SM in StateMachineDict[subjectObject.name])
+            {
+                SM.Update(objectObject, subjectObject, interaction);
+            }
         }
     }
 
-    public void TriggerSound()
+    public void TriggerSound(GameObject obj, VoiceLineManager.VoiceLinePurpose purpose)
     {
-        //TODO: Send to intermediary manager
+        // Do processing of game obj here
+        string name = obj.name.ToLower();
+        string purp = purpose.ToString().ToLower();
+        voiceLineManager.RequestVoiceLine(name + '_' + purp);
     }
 }
 

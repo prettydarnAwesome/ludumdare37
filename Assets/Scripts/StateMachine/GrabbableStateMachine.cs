@@ -8,11 +8,11 @@ public class GrabbableStateMachine : StateMachine
 {
     public GrabbableStateMachine(InteractionManager iManager, string name) : base(iManager, name)
     {
-        State floorState = CreateState("Floor", "Floor");
-        State handState = CreateState("Hand", "Grab");
+        State floorState = CreateState("Floor", VoiceLineManager.VoiceLinePurpose.FLOOR);
+        State handState = CreateState("Hand", VoiceLineManager.VoiceLinePurpose.GRAB);
         State fallingState = CreateState("Falling");
-        State juggleState = CreateState("Juggle", "Juggle");
-        State wallState = CreateState("Wall", "Wall");
+        State juggleState = CreateState("Juggle", VoiceLineManager.VoiceLinePurpose.JUGGLE);
+        State wallState = CreateState("Wall", VoiceLineManager.VoiceLinePurpose.WALL);
 
         AttachEdge(floorState, handState, InteractionManager.Interactions.GRAB);
         AttachEdge(handState, fallingState, InteractionManager.Interactions.DROP);
@@ -32,7 +32,7 @@ public class GrabbableStateMachine : StateMachine
         if (interaction == InteractionManager.Interactions.GRABBABLECOLLISION)
         {
             //TODO: Should be sending to intermediary the name of both objects being interacted which should then trigger the relevant voice line
-            IManager.TriggerSound();//Trigger GrabbableCollision Sound
+            //IManager.TriggerSound();//Trigger GrabbableCollision Sound
         }
         else
         {
