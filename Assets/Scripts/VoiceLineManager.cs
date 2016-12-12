@@ -16,7 +16,8 @@ public class VoiceLineManager : MonoBehaviour
         GRAB,
         FLOOR,
         WALL,
-        JUGGLE
+        JUGGLE,
+        TABLE
     }
 
     // TODO: Make a custom clip class, this would contain information such as the last time it was played, its priority and whatever else we want to put in there
@@ -44,7 +45,7 @@ public class VoiceLineManager : MonoBehaviour
         // check if we have any voice lines of the requested category
         if (requestedClips.Count == 0)
         {
-            Debug.LogError("no voice lines found with the given title: " + clipTitle);
+            Debug.LogWarning("no voice lines found with the given title: " + clipTitle);
             return;
         }
         else

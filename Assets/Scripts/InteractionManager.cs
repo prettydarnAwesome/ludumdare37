@@ -15,6 +15,8 @@ public class InteractionManager : MonoBehaviour
         GRAB,
         DROP,        
         FLOORCOLLISION,
+        ENTERTABLETOPCOLLISION,
+        EXITTABLETOPCOLLISION,
         ENTERWALLCOLLISION,
         EXITWALLCOLLISION,
         GRABBABLECOLLISION
