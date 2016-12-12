@@ -13,8 +13,10 @@ public class InteractionManager : MonoBehaviour
     public enum Interactions
     {
         GRAB,
-        DROP,
-        FLOORCOLLISION
+        DROP,        
+        FLOORCOLLISION,
+        ENTERWALLCOLLISION,
+        EXITWALLCOLLISION
     }
 
     // Use this for initialization

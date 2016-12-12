@@ -23,7 +23,7 @@ public class Edge
     {
         TargetState = targetState;
         EdgeCondition = condition;
-    }
-
+    }    
 }
+
 

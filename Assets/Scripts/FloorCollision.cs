@@ -18,8 +18,6 @@ public class FloorCollision : MonoBehaviour {
 
     public void OnCollisionEnter(Collision collision)
     {        
-        Debug.Log("FloorTrigger");
         interactionManager.NotifyInteraction(gameObject, collision.collider.gameObject, InteractionManager.Interactions.FLOORCOLLISION);
-
     }
 }

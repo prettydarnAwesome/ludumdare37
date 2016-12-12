@@ -39,16 +39,19 @@ public class StateMachine
 
     public string Update(GameObject objectObject, GameObject subjectObject, InteractionManager.Interactions interaction)
     {
-        Debug.Log("StateMachine Update");
-
-        foreach (Edge edge in CurrentState.Edges)
+        if (Name == subjectObject.name)
         {
-            if (edge.EdgeCondition == interaction)
+            Debug.Log("StateMachine Update");
+
+            foreach (Edge edge in CurrentState.Edges)
             {
-                CurrentState = edge.TargetState;
-                Debug.Log("Changed State To: " + CurrentState.Name);
-                return CurrentState.VoiceString;
-                break;
+                if (edge.EdgeCondition == interaction)
+                {
+                    CurrentState = edge.TargetState;
+                    Debug.Log("Changed State To: " + CurrentState.Name);
+                    return CurrentState.VoiceString;
+                    break;
+                }
             }
         }
         return null;
