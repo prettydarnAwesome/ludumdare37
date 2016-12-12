@@ -20,7 +20,8 @@ public class VoiceLineManager : MonoBehaviour
         TABLE,
         DAY,
         NIGHT,
-        SHELF
+        SHELF,
+        FALL
     }
 
     // TODO: Make a custom clip class, this would contain information such as the last time it was played, its priority and whatever else we want to put in there

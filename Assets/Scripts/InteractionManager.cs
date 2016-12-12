@@ -22,7 +22,8 @@ public class InteractionManager : MonoBehaviour
         GRABBABLECOLLISION,
         SWITCHTOGGLE,
         ENTERSHELFCOLLISION,
-        EXITSHELFCOLLISION
+        EXITSHELFCOLLISION,
+        PICTURECOLLISION
     }
 
     // Use this for initialization
@@ -36,8 +37,12 @@ public class InteractionManager : MonoBehaviour
             StateMachineDict[grabbable.name].Add(new GrabbableStateMachine(this, grabbable.name));            
         }
 
+        // Light Switch
         StateMachineDict.Add("LightSwitchButton", new List<StateMachine>());
         StateMachineDict["LightSwitchButton"].Add(new DayNightStateMachine(this, "LightSwitchButton"));
+
+        // Picture
+        StateMachineDict["Picture"].Add(new PictureStateMachine(this, "Picture"));
     }
 
     // Update is called once per frame

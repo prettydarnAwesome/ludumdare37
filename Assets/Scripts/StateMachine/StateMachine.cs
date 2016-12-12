@@ -45,7 +45,7 @@ public class StateMachine
                 if (edge.EdgeCondition == interaction)
                 {
                     CurrentState = edge.TargetState;
-                    Debug.Log("Changed State To: " + CurrentState.Name);
+                    Debug.Log("Changed State of " + Name + "'s SM to: " + CurrentState.Name);
                     if(CurrentState.Purpose != VoiceLineManager.VoiceLinePurpose.NULL)
                         IManager.TriggerSound(subjectObject, CurrentState.Purpose);
                     break;
