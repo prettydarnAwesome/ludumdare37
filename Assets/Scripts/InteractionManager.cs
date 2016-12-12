@@ -45,7 +45,6 @@ public class InteractionManager : MonoBehaviour
             foreach (StateMachine SM in StateMachineDict[objectObject.name])
             {
                 SM.Update(objectObject, subjectObject, interaction);
-                //voiceLineManager.RequestVoiceLine(playString);
             }
         }
         if (StateMachineDict.ContainsKey(subjectObject.name))

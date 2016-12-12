@@ -3,86 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : MonoBehaviour
+{
 
     public Dictionary<string, AudioClip> Clips;
-    public Queue<string> SoundQueue;
+    public Queue<SoundClip> SoundQueue;
     public AudioSource Source;
 
-	// Use this for initialization
-	void Start () {
-        SoundQueue = new Queue<string>();
-        Clips = new Dictionary<string, AudioClip>();
-        var cliparray = Resources.LoadAll<AudioClip>("").ToList();
-        cliparray.ForEach(x =>
-        {
-            Clips.Add(x.name, x);
-            Debug.Log("adding " + x.name + " to list of audio clips");
-        });
+    // Use this for initialization
+    void Start()
+    {
+        SoundQueue = new Queue<SoundClip>();
 
         Source = GetComponent<AudioSource>();
-
-        //test: play a random sound
-        /*var source = GetComponent<AudioSource>();
-        source.clip = Clips.ElementAt(Mathf.FloorToInt(Random.value * Clips.Count)).Value;
-        source.volume = 0.1f;
-        source.Play();*/
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		if(!Source.isPlaying)
-        {
-            // we can play another sound from the queue if one is available
-            if(SoundQueue.Count > 0)
-            {
-                var clipname = SoundQueue.Dequeue();
-                Debug.Log(clipname);
-                Source.clip = Clips[clipname];
-                Source.Play();
-            }
-        }
-	}
-
-    public void RequestSound(string name)
-    {
-        if(Clips.ContainsKey(name))
-        {
-            SoundQueue.Enqueue(name);
-        } else
-        {
-            Debug.LogWarning("Couldn't find a sound clip with name " + name + " !!!");
-        }
     }
 
-    public void PlaySoundImmediately(string name)
+    // Update is called once per frame
+    void Update()
     {
-        if (Clips.ContainsKey(name))
+        if (!Source.isPlaying && SoundQueue.Count > 0) // If we arent playing something and there is something to play
         {
-            Source.clip = Clips[name];
+            SoundClip soundClip = SoundQueue.Dequeue();
+            Debug.Log("Playing: " + soundClip.clipName);
+            Source.clip = soundClip.audioClip;
+            soundClip.Played();
             Source.Play();
         }
-        else
-        {
-            Debug.LogWarning("Couldn't find a sound clip with name " + name + " !!!");
-        }
     }
 
-    public void RequestSoundNext(string name)
+    public void RequestSound(SoundClip clipToPlay)
     {
-        if (Clips.ContainsKey(name))
+        SoundQueue.Enqueue(clipToPlay);
+    }
+
+    public void PlaySoundImmediately(SoundClip soundClip)
+    {
+        Debug.Log("Playing: " + soundClip.clipName);
+        Source.clip = soundClip.audioClip;
+        Source.Play();
+    }
+
+    public void RequestSoundNext(SoundClip soundClip)
+    {
+        var tempqueue = new Queue<SoundClip>();
+        tempqueue.Enqueue(soundClip);
+        while (SoundQueue.Count > 0)
         {
-            var tempqueue = new Queue<string>();
-            tempqueue.Enqueue(name);
-            while(SoundQueue.Count > 0)
-            {
-                tempqueue.Enqueue(SoundQueue.Dequeue());
-            }
-            SoundQueue = tempqueue;
+            tempqueue.Enqueue(SoundQueue.Dequeue());
         }
-        else
-        {
-            Debug.LogWarning("Couldn't find a sound clip with name " + name + " !!!");
-        }
+        SoundQueue = tempqueue;
     }
 }
