@@ -71,11 +71,11 @@ public class WandGrabber : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Button" && other.gameObject.name == "Button")
+        if (other.gameObject.tag == "Button" && other.gameObject.name == "LightSwitchButton")
         {
-            Debug.Log("here");
             other.gameObject.GetComponent<Animation>().Play();
             dayNightToggle.Toggle();
+            interactionManager.NotifyInteraction(gameObject, other.gameObject, InteractionManager.Interactions.SWITCHTOGGLE);
         }
     }
 

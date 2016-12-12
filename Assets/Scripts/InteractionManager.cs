@@ -19,7 +19,8 @@ public class InteractionManager : MonoBehaviour
         EXITTABLETOPCOLLISION,
         ENTERWALLCOLLISION,
         EXITWALLCOLLISION,
-        GRABBABLECOLLISION
+        GRABBABLECOLLISION,
+        SWITCHTOGGLE
     }
 
     // Use this for initialization
@@ -32,6 +33,9 @@ public class InteractionManager : MonoBehaviour
             StateMachineDict.Add(grabbable.name, new List<StateMachine>());
             StateMachineDict[grabbable.name].Add(new GrabbableStateMachine(this, grabbable.name));            
         }
+
+        StateMachineDict.Add("LightSwitchButton", new List<StateMachine>());
+        StateMachineDict["LightSwitchButton"].Add(new DayNightStateMachine(this, "LightSwitchButton"));
     }
 
     // Update is called once per frame

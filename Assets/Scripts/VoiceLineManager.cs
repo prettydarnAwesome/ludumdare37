@@ -17,7 +17,9 @@ public class VoiceLineManager : MonoBehaviour
         FLOOR,
         WALL,
         JUGGLE,
-        TABLE
+        TABLE,
+        DAY,
+        NIGHT
     }
 
     // TODO: Make a custom clip class, this would contain information such as the last time it was played, its priority and whatever else we want to put in there
