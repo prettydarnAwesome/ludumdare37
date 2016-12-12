@@ -17,10 +17,12 @@ public class StateMachine
         get;
         private set;
     }
+    protected InteractionManager IManager;
 
-    public StateMachine(string name)
+    public StateMachine(InteractionManager iManager, string name)
     {
-        this.Name = name;
+        IManager = iManager;
+        Name = name;
         StateCounter = 0;
     }
 
@@ -37,10 +39,8 @@ public class StateMachine
         return state;
     }
 
-    public string Update(GameObject objectObject, GameObject subjectObject, InteractionManager.Interactions interaction)
+    public virtual void Update(GameObject objectObject, GameObject subjectObject, InteractionManager.Interactions interaction)
     {
-        if (Name == subjectObject.name)
-        {
             Debug.Log("StateMachine Update");
 
             foreach (Edge edge in CurrentState.Edges)
@@ -49,12 +49,10 @@ public class StateMachine
                 {
                     CurrentState = edge.TargetState;
                     Debug.Log("Changed State To: " + CurrentState.Name);
-                    return CurrentState.VoiceString;
+                    IManager.TriggerSound(); // TODO: Make this do sound pls
                     break;
                 }
-            }
-        }
-        return null;
+            }        
     }
 
 

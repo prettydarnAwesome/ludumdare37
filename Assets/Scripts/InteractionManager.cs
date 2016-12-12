@@ -7,8 +7,8 @@ public class InteractionManager : MonoBehaviour
 {
 
     public VoiceLineManager voiceLineManager;
+    private Dictionary<string,List<StateMachine>> StateMachineDict;
 
-    GrabbableStateMachine boxGrabSM;
 
     public enum Interactions
     {
@@ -16,14 +16,18 @@ public class InteractionManager : MonoBehaviour
         DROP,        
         FLOORCOLLISION,
         ENTERWALLCOLLISION,
-        EXITWALLCOLLISION
+        EXITWALLCOLLISION,
+        GRABBABLECOLLISION
     }
 
     // Use this for initialization
     void Start()
     {
-        boxGrabSM = new GrabbableStateMachine("Cube");
-
+        foreach (GameObject grabbable in GameObject.FindGameObjectsWithTag("Grabbable"))
+        {
+            StateMachineDict.Add(grabbable.name, new List<StateMachine>());
+            StateMachineDict[grabbable.name].Add(new GrabbableStateMachine(this, grabbable.name));            
+        }
     }
 
     // Update is called once per frame
@@ -34,14 +38,20 @@ public class InteractionManager : MonoBehaviour
 
     public void NotifyInteraction(GameObject objectObject, GameObject subjectObject, Interactions interaction)
     {
-
-        string playString = boxGrabSM.Update(objectObject, subjectObject, interaction);
-        if (playString != null)
+        foreach (StateMachine SM in StateMachineDict[objectObject.name])
         {
+            SM.Update(objectObject, subjectObject, interaction);
             voiceLineManager.RequestVoiceLine(playString);
         }
+        foreach (StateMachine SM in StateMachineDict[subjectObject.name])
+        {
+            SM.Update(objectObject, subjectObject, interaction);
+        }
+    }
 
-
+    public void TriggerSound()
+    {
+        //TODO: Send to intermediary manager
     }
 }
 

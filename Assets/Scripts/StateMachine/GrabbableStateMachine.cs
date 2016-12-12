@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GrabbableStateMachine : StateMachine
 {
-    public GrabbableStateMachine(string name) : base(name)
+    public GrabbableStateMachine(InteractionManager iManager, string name) : base(iManager, name)
     {
         State floorState = CreateState("Floor", "Floor");
         State handState = CreateState("Hand", "Grab");
@@ -26,7 +26,21 @@ public class GrabbableStateMachine : StateMachine
         StartState = floorState;
         CurrentState = StartState; 
     }
-   
+
+    public override void Update(GameObject objectObject, GameObject subjectObject, InteractionManager.Interactions interaction)
+    {
+        if (interaction == InteractionManager.Interactions.GRABBABLECOLLISION)
+        {
+            //TODO: Should be sending to intermediary the name of both objects being interacted which should then trigger the relevant voice line
+            IManager.TriggerSound();//Trigger GrabbableCollision Sound
+        }
+        else
+        {
+            base.Update(objectObject, subjectObject, interaction);
+        }
+    }
 
 }
+
+        
 
