@@ -6,7 +6,7 @@ using UnityEngine;
 public class InteractionManager : MonoBehaviour
 {
 
-    public AudioManager audioManager;
+    public VoiceLineManager voiceLineManager;
 
     GrabbableStateMachine boxGrabSM;
 
@@ -38,7 +38,7 @@ public class InteractionManager : MonoBehaviour
         string playString = boxGrabSM.Update(objectObject, subjectObject, interaction);
         if (playString != null)
         {
-            audioManager.PlaySoundImmediately(playString);
+            voiceLineManager.RequestVoiceLine(playString);
         }
 
 
