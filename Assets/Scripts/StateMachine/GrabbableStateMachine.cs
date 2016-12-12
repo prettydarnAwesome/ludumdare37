@@ -14,6 +14,7 @@ public class GrabbableStateMachine : StateMachine
         State juggleState = CreateState("Juggle", VoiceLineManager.VoiceLinePurpose.JUGGLE);
         State wallState = CreateState("Wall", VoiceLineManager.VoiceLinePurpose.WALL);
         State tableState = CreateState("Table", VoiceLineManager.VoiceLinePurpose.TABLE);
+        State shelfState = CreateState("Shelf", VoiceLineManager.VoiceLinePurpose.SHELF);
 
         AttachEdge(floorState, handState, InteractionManager.Interactions.GRAB);
         AttachEdge(handState, fallingState, InteractionManager.Interactions.DROP);
@@ -27,6 +28,10 @@ public class GrabbableStateMachine : StateMachine
         AttachEdge(fallingState, tableState, InteractionManager.Interactions.ENTERTABLETOPCOLLISION);
         AttachEdge(tableState, handState, InteractionManager.Interactions.GRAB);
         AttachEdge(tableState, fallingState, InteractionManager.Interactions.EXITTABLETOPCOLLISION);
+
+        AttachEdge(fallingState, shelfState, InteractionManager.Interactions.ENTERSHELFCOLLISION);
+        AttachEdge(shelfState, handState, InteractionManager.Interactions.GRAB);
+        AttachEdge(shelfState, fallingState, InteractionManager.Interactions.EXITSHELFCOLLISION);
 
         StartState = floorState;
         CurrentState = StartState; 

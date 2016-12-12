@@ -20,7 +20,9 @@ public class InteractionManager : MonoBehaviour
         ENTERWALLCOLLISION,
         EXITWALLCOLLISION,
         GRABBABLECOLLISION,
-        SWITCHTOGGLE
+        SWITCHTOGGLE,
+        ENTERSHELFCOLLISION,
+        EXITSHELFCOLLISION
     }
 
     // Use this for initialization
