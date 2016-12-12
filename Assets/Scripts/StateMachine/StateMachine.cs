@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-
 public class StateMachine
 {
     protected State StartState;
@@ -41,9 +40,7 @@ public class StateMachine
 
     public virtual void Update(GameObject objectObject, GameObject subjectObject, InteractionManager.Interactions interaction)
     {
-            Debug.Log("StateMachine Update");
-
-            foreach (Edge edge in CurrentState.Edges)
+        foreach (Edge edge in CurrentState.Edges)
             {
                 if (edge.EdgeCondition == interaction)
                 {

@@ -47,7 +47,7 @@ public class SoundClip
         private set;
     }
 
-    public SoundClip(AudioClip audioClip, string clipName, TimeSpan timeoutDuration)
+    public SoundClip(AudioClip audioClip, string clipName, TimeSpan timeoutDuration, int priority)
     {
         this.audioClip = audioClip;
         this.clipName = clipName;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
+
 
 public class VoiceLineManager : MonoBehaviour
 {
@@ -27,12 +27,21 @@ public class VoiceLineManager : MonoBehaviour
 
     void Start()
     {
+        // This loads in all the sound information from the voicelines.csv file
         Clips = new List<SoundClip>();
-        var cliparray = Resources.LoadAll<AudioClip>("").ToList();
-        cliparray.ForEach(x =>
+        string fileData = System.IO.File.ReadAllText("Assets/Resources/Sounds/voicelines.csv");
+        string[] lines = fileData.Split('\n');
+
+        foreach (string str in lines)
         {
-            Clips.Add(new SoundClip(x, x.name, new TimeSpan(0, 0, 5)));
-        });
+            string[] lineData = (str.Trim()).Split(',');
+            if (!String.IsNullOrEmpty(lineData[0]))
+            {
+                AudioClip clip = Resources.Load<AudioClip>("Sounds/" + lineData[0]);
+                Clips.Add(new SoundClip(clip, lineData[0], new TimeSpan(0, 0, Int32.Parse(lineData[1])), Int32.Parse(lineData[2])));
+            }
+        }
+
     }
 
     void Update()
