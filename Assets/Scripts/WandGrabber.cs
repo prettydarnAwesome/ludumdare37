@@ -11,6 +11,7 @@ public class WandGrabber : MonoBehaviour
 
     public InteractionManager interactionManager;
     public DayNightToggle dayNightToggle;
+    public PianoCollision pianoCollision;
 
     // Use this for initialization
     void Start()
@@ -76,6 +77,10 @@ public class WandGrabber : MonoBehaviour
             other.gameObject.GetComponent<Animation>().Play();
             dayNightToggle.Toggle();
             interactionManager.NotifyInteraction(gameObject, other.gameObject, InteractionManager.Interactions.SWITCHTOGGLE);
+        }
+        else if(other.gameObject.name == "Piano")
+        {
+            pianoCollision.PlayNote();
         }
     }
 
