@@ -23,7 +23,9 @@ public class InteractionManager : MonoBehaviour
         SWITCHTOGGLE,
         ENTERSHELFCOLLISION,
         EXITSHELFCOLLISION,
-        PICTURECOLLISION
+        PICTURECOLLISION,
+        TERRAINCOLLISION,
+        COMPUTERCOLLISION
     }
 
     // Use this for initialization
@@ -43,6 +45,10 @@ public class InteractionManager : MonoBehaviour
 
         // Picture
         StateMachineDict["Picture"].Add(new PictureStateMachine(this, "Picture"));
+
+        // Computer
+        StateMachineDict.Add("Computer", new List<StateMachine>());
+        StateMachineDict["Computer"].Add(new ComputerStateMachine(this, "Computer"));
     }
 
     // Update is called once per frame

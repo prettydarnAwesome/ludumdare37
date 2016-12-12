@@ -7,3 +7,6 @@ cube_wall,5,0
 lightswitchbutton_day,0,10
 lightswitchbutton_night,0,10
 picture_fall,5,0
+cube_outside,5,10
+computer_beep1,1,0
+computer_beep2,1,0

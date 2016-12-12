@@ -15,6 +15,7 @@ public class GrabbableStateMachine : StateMachine
         State wallState = CreateState("Wall", VoiceLineManager.VoiceLinePurpose.WALL);
         State tableState = CreateState("Table", VoiceLineManager.VoiceLinePurpose.TABLE);
         State shelfState = CreateState("Shelf", VoiceLineManager.VoiceLinePurpose.SHELF);
+        State terrainState = CreateState("Terrain", VoiceLineManager.VoiceLinePurpose.OUTSIDE);
 
         AttachEdge(floorState, handState, InteractionManager.Interactions.GRAB);
         AttachEdge(handState, fallingState, InteractionManager.Interactions.DROP);
@@ -33,6 +34,9 @@ public class GrabbableStateMachine : StateMachine
         AttachEdge(shelfState, handState, InteractionManager.Interactions.GRAB);
         AttachEdge(shelfState, fallingState, InteractionManager.Interactions.EXITSHELFCOLLISION);
 
+        AttachEdge(fallingState, terrainState, InteractionManager.Interactions.TERRAINCOLLISION);
+        AttachEdge(terrainState, handState, InteractionManager.Interactions.GRAB);
+
         StartState = floorState;
         CurrentState = StartState; 
     }
@@ -43,6 +47,10 @@ public class GrabbableStateMachine : StateMachine
         {
             //TODO: Should be sending to intermediary the name of both objects being interacted which should then trigger the relevant voice line
             //IManager.TriggerSound();//Trigger GrabbableCollision Sound
+        }
+        else if(Name == "Radio" && interaction == InteractionManager.Interactions.TERRAINCOLLISION)
+        {
+            subjectObject.GetComponent<AudioSource>().Stop();
         }
         else
         {
